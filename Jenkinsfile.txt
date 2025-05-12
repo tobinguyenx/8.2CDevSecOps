@@ -1,0 +1,29 @@
+pipeline {
+  agent any
+
+  tools {
+    nodejs "NodeJS 18"
+  }
+
+  stages {
+    stage('Install') {
+      steps {
+        bat 'npm install'
+      }
+    }
+
+    stage('Audit') {
+      steps {
+        bat 'npm audit --json > audit.json || exit 0'
+      }
+    }
+
+    stage('SonarCloud') {
+      steps {
+        withSonarQubeEnv('SonarCloud') {
+          bat 'sonar-scanner'
+        }
+      }
+    }
+  }
+}
