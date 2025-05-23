@@ -3,8 +3,7 @@ pipeline {
 
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
-    NODE_VERSION = 'v18.20.2'
-    NODE_DIR = "${WORKSPACE}/node"
+    PATH = "${env.WORKSPACE}/node/bin:${env.PATH}"
   }
 
   stages {
@@ -14,16 +13,16 @@ pipeline {
       }
     }
 
-    stage('Install Node.js & npm (manual)') {
+    stage('Install Node.js & npm') {
       steps {
         sh '''
-      uname -m
-      mkdir -p $NODE_DIR
-      curl -o node.tar.gz https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz
-      tar -xzf node.tar.gz --strip-components=1 -C $NODE_DIR
-      rm node.tar.gz
-      $NODE_DIR/bin/node -v
-      $NODE_DIR/bin/npm -v
+      mkdir -p $WORKSPACE/node
+      curl -o node.tar.xz https://nodejs.org/dist/v18.20.2/node-v18.20.2-linux-arm64.tar.xz
+      tar -xf node.tar.xz --strip-components=1 -C $WORKSPACE/node
+      rm node.tar.xz
+      export PATH=$WORKSPACE/node/bin:$PATH
+      node -v
+      npm -v
     '''
       }
     }
