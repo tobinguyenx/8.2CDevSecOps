@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Clone Repo') {
       steps {
-        git 'https://github.com/tobinguyenx/8.2CDevSecOps.git'
+        git branch: 'main', url: 'https://github.com/tobinguyenx/8.2CDevSecOps.git'
       }
     }
 
