@@ -42,6 +42,20 @@ pipeline {
                     npm test || true
                 '''
       }
+      post {
+        always {
+          archiveArtifacts artifacts: 'test-logs/**/*.log', allowEmptyArchive: true
+
+          emailext(
+                        subject: "Test Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+                        body: """The test stage has completed with status: ${currentBuild.currentResult}.
+                                Please find attached the test logs for details.""",
+                        to: 'nguyentaitino@gmail.com',
+                        attachmentsPattern: 'test-logs/**/*.log',
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                    )
+        }
+      }
     }
 
     stage('Security Scan (npm audit)') {
@@ -59,6 +73,20 @@ pipeline {
                     export PATH=$WORKSPACE/node/bin:$PATH
                     npm run coverage || true
                 '''
+      }
+      post {
+        always {
+          archiveArtifacts artifacts: 'security-scan-logs/**/*.log', allowEmptyArchive: true
+
+          emailext(
+                        subject: "Security Scan Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+                        body: """The security scan stage has completed with status: ${currentBuild.currentResult}.
+                                Please find attached the security scan logs for details.""",
+                        to: 'nguyentaitino@gmail.com',
+                        attachmentsPattern: 'security-scan-logs/**/*.log',
+                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                    )
+        }
       }
     }
 
