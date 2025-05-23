@@ -44,8 +44,6 @@ pipeline {
       }
       post {
         always {
-          archiveArtifacts artifacts: 'test-logs/**/*.log', allowEmptyArchive: true
-
           emailext(
                         subject: "Test Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                         body: """The test stage has completed with status: ${currentBuild.currentResult}.
@@ -74,8 +72,6 @@ pipeline {
       }
       post {
         always {
-          archiveArtifacts artifacts: 'security-scan-logs/**/*.log', allowEmptyArchive: true
-
           emailext(
                         subject: "Security Scan Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                         body: """The security scan stage has completed with status: ${currentBuild.currentResult}.
