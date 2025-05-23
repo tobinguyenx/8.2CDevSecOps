@@ -17,6 +17,7 @@ pipeline {
     stage('Install Node.js & npm (manual)') {
       steps {
         sh '''
+      uname -m
       mkdir -p $NODE_DIR
       curl -o node.tar.gz https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz
       tar -xzf node.tar.gz --strip-components=1 -C $NODE_DIR
