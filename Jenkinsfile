@@ -38,12 +38,15 @@ pipeline {
     stage('Run Tests') {
       steps {
         sh '''
-                    export PATH=$WORKSPACE/node/bin:$PATH
-                    npm test || true
+                     export PATH=$WORKSPACE/node/bin:$PATH
+      mkdir -p test-logs
+      npm test > test-logs/test-output.log || true
                 '''
       }
       post {
         always {
+          archiveArtifacts artifacts: 'test-logs/**/*.log', allowEmptyArchive: true
+
           emailext(
                         subject: "Test Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
                         body: """The test stage has completed with status: ${currentBuild.currentResult}.
@@ -56,10 +59,22 @@ pipeline {
 
     stage('Security Scan (npm audit)') {
       steps {
-        sh '''
-                    export PATH=$WORKSPACE/node/bin:$PATH
-                    npm audit --audit-level=high || true
+        sh '''export PATH=$WORKSPACE/node/bin:$PATH
+      mkdir -p security-scan-logs
+      npm audit --audit-level=high > security-scan-logs/npm-audit.log || true
                 '''
+      }
+      post {
+        always {
+          archiveArtifacts artifacts: 'security-scan-logs/**/*.log', allowEmptyArchive: true
+
+          emailext(
+                        subject: "Security Scan Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+                        body: """The security scan stage has completed with status: ${currentBuild.currentResult}.
+                                Please find attached the security scan logs for details.""",
+                        to: 'nguyentaitino@gmail.com',
+                    )
+        }
       }
     }
 
@@ -69,16 +84,6 @@ pipeline {
                     export PATH=$WORKSPACE/node/bin:$PATH
                     npm run coverage || true
                 '''
-      }
-      post {
-        always {
-          emailext(
-                        subject: "Security Scan Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
-                        body: """The security scan stage has completed with status: ${currentBuild.currentResult}.
-                                Please find attached the security scan logs for details.""",
-                        to: 'nguyentaitino@gmail.com',
-                    )
-        }
       }
     }
 
