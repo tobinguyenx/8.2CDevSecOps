@@ -67,7 +67,7 @@ pipeline {
         sh '''
       export PATH=$WORKSPACE/node/bin:$PATH
       npm install -g sonarqube-scanner
-      sonarqube-scanner
+      npx sonarqube-scanner
     '''
       }
     }
