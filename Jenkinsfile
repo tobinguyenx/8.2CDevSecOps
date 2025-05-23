@@ -4,6 +4,7 @@ pipeline {
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     PATH = "${env.WORKSPACE}/node/bin:${env.PATH}"
+    SONAR_TOKEN = "7faad3fdc810d3d5df18a3081117c00a5878f928"
   }
 
   stages {
@@ -67,7 +68,11 @@ pipeline {
         sh '''
       export PATH=$WORKSPACE/node/bin:$PATH
       npm install -g sonarqube-scanner
-      npx sonarqube-scanner
+      npx sonarqube-scanner \
+        -Dsonar.organization=tobinguyenx \
+        -Dsonar.projectKey=tobinguyenx_8.2CDevSecOps \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=$SONAR_TOKEN
     '''
       }
     }
