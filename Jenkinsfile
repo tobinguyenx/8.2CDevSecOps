@@ -52,7 +52,6 @@ pipeline {
                                 Please find attached the test logs for details.""",
                         to: 'nguyentaitino@gmail.com',
                         attachmentsPattern: 'test-logs/**/*.log',
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                     )
         }
       }
@@ -84,7 +83,6 @@ pipeline {
                                 Please find attached the security scan logs for details.""",
                         to: 'nguyentaitino@gmail.com',
                         attachmentsPattern: 'security-scan-logs/**/*.log',
-                        recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                     )
         }
       }
