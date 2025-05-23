@@ -6,6 +6,15 @@ pipeline {
   }
 
   stages {
+    stage('Install Node.js & npm') {
+      steps {
+        sh '''
+                    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                    sudo apt-get install -y nodejs
+                '''
+      }
+    }
+
     stage('Clone Repo') {
       steps {
         git branch: 'main', url: 'https://github.com/tobinguyenx/8.2CDevSecOps.git'
