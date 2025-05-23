@@ -28,7 +28,8 @@ pipeline {
 
     stage('Install Dependencies') {
       steps {
-        sh '$NODE_DIR/bin/npm install'
+        export PATH=$WORKSPACE/node/bin:$PATH
+        npm install
       }
     }
 
