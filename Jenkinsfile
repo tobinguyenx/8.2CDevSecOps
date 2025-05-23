@@ -37,28 +37,38 @@ pipeline {
 
     stage('Run Tests') {
       steps {
-        sh '$NODE_DIR/bin/npm test'
+        sh '''
+                    export PATH=$WORKSPACE/node/bin:$PATH
+                    npm test
+                '''
       }
     }
 
     stage('Security Scan (npm audit)') {
       steps {
-        sh '$NODE_DIR/bin/npm audit --audit-level=high || true'
+        sh '''
+                    export PATH=$WORKSPACE/node/bin:$PATH
+                    npm audit --audit-level=high || true
+                '''
       }
     }
 
     stage('Coverage') {
       steps {
-        sh '$NODE_DIR/bin/npm run coverage || true'
+        sh '''
+                    export PATH=$WORKSPACE/node/bin:$PATH
+                    npm run coverage || true
+                '''
       }
     }
 
     stage('SonarCloud Analysis') {
       steps {
         sh '''
-          $NODE_DIR/bin/npm install -g sonarqube-scanner
-          $NODE_DIR/bin/sonarqube-scanner
-        '''
+      export PATH=$WORKSPACE/node/bin:$PATH
+      npm install -g sonarqube-scanner
+      sonarqube-scanner
+    '''
       }
     }
   }
