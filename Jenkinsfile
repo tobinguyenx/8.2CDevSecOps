@@ -17,10 +17,9 @@ pipeline {
       steps {
         sh '''
       mkdir -p $WORKSPACE/node
-      curl -o node.tar.xz https://nodejs.org/dist/v18.20.2/node-v18.20.2-linux-arm64.tar.xz
-      tar -xf node.tar.xz --strip-components=1 -C $WORKSPACE/node
-      rm node.tar.xz
-      export PATH=$WORKSPACE/node/bin:$PATH
+      curl -o node.tar.gz https://nodejs.org/dist/v18.20.2/node-v18.20.2-linux-arm64.tar.gz
+      tar -xzf node.tar.gz --strip-components=1 -C $WORKSPACE/node
+      rm node.tar.gz
       node -v
       npm -v
     '''
