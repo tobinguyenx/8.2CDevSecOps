@@ -44,16 +44,18 @@ pipeline {
                 '''
       }
       post {
-        always {
-          archiveArtifacts artifacts: 'test-logs/**/*.log', allowEmptyArchive: true
-
-          emailext(
-                        subject: "Test Stage - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
-                        body: """The test stage has completed with status: ${currentBuild.currentResult}.
-                                Please find attached the test logs for details.""",
-                        to: 'nguyentaitino@gmail.com',
-                    )
-        }
+       success {
+                    emailext subject: 'Test Stage Success',
+                             body: 'The test stage completed successfully.',
+                             to: 'devs@company.com',
+                             attachmentsPattern: '${LOG_FILE}'
+                }
+                failure {
+                    emailext subject: 'Test Stage Failed',
+                             body: 'The test stage failed.',
+                             to: 'devs@company.com',
+                             attachmentsPattern: '${LOG_FILE}'
+                }
       }
     }
 
