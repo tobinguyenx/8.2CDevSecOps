@@ -4,7 +4,6 @@ pipeline {
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
     PATH = "${env.WORKSPACE}/node/bin:${env.PATH}"
-    SONAR_TOKEN = "7faad3fdc810d3d5df18a3081117c00a5878f928"
   }
 
   stages {
