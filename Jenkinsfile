@@ -1,9 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:18-alpine'
-    }
-  }
+  agent any
 
   environment {
     SONAR_TOKEN = credentials('SONAR_TOKEN')
