@@ -51,7 +51,6 @@ pipeline {
                         body: """The test stage has completed with status: ${currentBuild.currentResult}.
                                 Please find attached the test logs for details.""",
                         to: 'nguyentaitino@gmail.com',
-                        attachmentsPattern: 'test-logs/**/*.log',
                     )
         }
       }
@@ -82,7 +81,6 @@ pipeline {
                         body: """The security scan stage has completed with status: ${currentBuild.currentResult}.
                                 Please find attached the security scan logs for details.""",
                         to: 'nguyentaitino@gmail.com',
-                        attachmentsPattern: 'security-scan-logs/**/*.log',
                     )
         }
       }
